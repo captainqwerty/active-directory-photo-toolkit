@@ -109,3 +109,6 @@ Backup*/
 UpgradeLog*.XML
 src/.vs/ActiveDirectoryPhotoToolkit/v15/Server/sqlite3/db.lock
 src/.vs/ActiveDirectoryPhotoToolkit/v15/Server/sqlite3/storage.ide-wal
+src/.vs/ActiveDirectoryPhotoToolkit/v15/Server/sqlite3/storage.ide
+src/.vs/ActiveDirectoryPhotoToolkit/v15/Server/sqlite3/storage.ide-shm
+src/.vs/ActiveDirectoryPhotoToolkit/v15/Server/sqlite3/storage.ide-wal

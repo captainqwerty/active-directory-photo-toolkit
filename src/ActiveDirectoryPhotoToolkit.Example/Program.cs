@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Console = System.Console;
 
 namespace ActiveDirectoryPhotoToolkit.Example
 {
@@ -6,25 +9,41 @@ namespace ActiveDirectoryPhotoToolkit.Example
     {
         private static void Main()
         {
-            // 1. Setup
+            Console.WriteLine("Active Directory Photo Uploaded");
+
+            // Directories
+            const string photoDirectory = @"C:\Photos";
+            const string uploadedDirectory = @"C:\Photos\Uploaded\";
+
+            // Setup
+            Console.WriteLine("Setting up ActiveDirectoryPhoto...");
             var activeDirectoryPhoto = new ActiveDirectoryPhoto();
 
-            // Example for getting the username
-            Console.Write("Username: ");
-            var username = Console.ReadLine();
+            // Get photos to be uploaded
+            var photos = Directory.GetFiles(photoDirectory);
 
-            // 2. Setting a Thumbnail
-            activeDirectoryPhoto.SetThumbnailPhoto(username, @"C:\photo.jpg");
+            foreach (var photo in photos)
+            {
+                Console.WriteLine("\n####################\n");
 
-            // 3. Getting a Thumbnail
-            var format = ActiveDirectoryPhoto.Format.GIF;
-            var thumbnailPhoto = activeDirectoryPhoto.GetThumbnailPhoto(username, format);
+                Console.WriteLine("Extracting file information....");
+                var fileName = Path.GetFileName(photo);
+                var username = Path.GetFileNameWithoutExtension(photo);
+                var uploadedFile = Path.Combine(uploadedDirectory, fileName);
 
-            // 4. Save the file to disk where the program is launched from
-            activeDirectoryPhoto.SaveThumbnailToDisk(thumbnailPhoto);
+                Console.WriteLine("Username: " + username);
+                Console.WriteLine("Photo Location: " + photo);
+                Console.WriteLine("File name: " + fileName);
+                Console.WriteLine("Upload Directory: " + uploadedDirectory);
 
-            // 5. Save the file to disk at a particular location
-            activeDirectoryPhoto.SaveThumbnailToDisk(thumbnailPhoto, "C:\\");
+                Console.WriteLine("Setting user photo...");
+                activeDirectoryPhoto.SetThumbnailPhoto(username, photo);
+
+                Console.WriteLine($"Moving {fileName}....");
+                File.Move(photo, uploadedFile);
+            }
+
+            Console.WriteLine("Photo upload completed successfully");
         }
     }
 }
